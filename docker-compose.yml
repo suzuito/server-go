@@ -1,0 +1,19 @@
+version: '3'
+services:
+  server:
+    build:
+      context: .
+      dockerfile: Dockerfile.server
+    ports:
+      - 8080:8080
+    environment:
+      - ENV=godzilla
+      - URL_PRERENDER=http://prerendering:8081
+    links:
+      - prerendering
+    depends_on:
+      - prerendering
+  prerendering:
+    image: gcr.io/suzuito-godzilla/prerendering:latest
+    ports:
+      - 8081:8080

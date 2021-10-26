@@ -1,0 +1,10 @@
+FROM golang:1.16-alpine AS builder
+WORKDIR /app
+COPY . ./
+RUN apk --no-cache add make
+RUN make server.exe
+
+FROM alpine:latest
+EXPOSE 8080
+COPY --from=builder /app/server.exe ./
+CMD [ "./server.exe" ]
