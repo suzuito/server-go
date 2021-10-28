@@ -2,7 +2,6 @@ package inject
 
 import (
 	"context"
-	"net/http/httputil"
 
 	"github.com/suzuito/blog1-server-go/matcher"
 	"github.com/suzuito/blog1-server-go/setting"
@@ -10,9 +9,9 @@ import (
 )
 
 type GlobalDepends struct {
-	UserAgentMatcher      usecase.UserAgentMatcher
-	ReverseProxyPrerender usecase.ReverseProxy
-	ReverseProxyFront     usecase.ReverseProxy
+	UserAgentMatcher             usecase.UserAgentMatcher
+	ReverseProxyFactoryPrerender usecase.ReverseProxyFactory
+	ReverseProxyFactoryFront     usecase.ReverseProxyFactory
 }
 
 func NewGlobalDepends(ctx context.Context, env *setting.Environment) (*GlobalDepends, func(), error) {
@@ -23,9 +22,9 @@ func NewGlobalDepends(ctx context.Context, env *setting.Environment) (*GlobalDep
 		}
 	}
 	r := GlobalDepends{
-		UserAgentMatcher:      matcher.NewUserAgentMatcher(),
-		ReverseProxyPrerender: httputil.NewSingleHostReverseProxy(env.PrerenderURL),
-		ReverseProxyFront:     httputil.NewSingleHostReverseProxy(env.FrontURL),
+		UserAgentMatcher:             matcher.NewUserAgentMatcher(),
+		ReverseProxyFactoryPrerender: &usecase.ReverseProxyFactoryImpl{Target: env.PrerenderURL},
+		ReverseProxyFactoryFront:     &usecase.ReverseProxyFactoryImpl{Target: env.FrontURL},
 	}
 	return &r, closeFunc, nil
 }
