@@ -1,4 +1,4 @@
-
+gcloud builds submit --config=./cloudbuild.server.suzuito-minilla.yaml
 gcloud run deploy blog1-server-go \
 --image=gcr.io/suzuito-minilla/blog1-server-go:latest \
 --platform=managed \
