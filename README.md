@@ -1,4 +1,7 @@
+SPA server
 
+- In case of bot request, send the request to a prerender.
+- In case of not bot request, send the request to a server delivering SPA.
 
 ## Developments
 
@@ -11,13 +14,15 @@ gcloud auth configure-docker
 docker-compose up
 ```
 
-以下の行をhostsファイルへ追加する
+```bash
+make test
+```
+
+### blog1-server:8080
 
 ```hosts
 127.0.0.1 blog1-server
 ```
-
-### blog1-server:8080
 
 ```bash
 open http://blog1-server:8080
