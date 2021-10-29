@@ -1,7 +1,6 @@
 package server
 
 import (
-	"encoding/json"
 	"fmt"
 	"net/http"
 	"time"
@@ -17,8 +16,9 @@ func Handler(env *setting.Environment, gdep *inject.GlobalDepends) func(http.Res
 		lentry := entity.LogEntry{}
 		lentry.StartedAt = time.Now()
 		defer func() {
-			lentryJSON, _ := json.Marshal(&lentry)
-			fmt.Println(string(lentryJSON))
+			// debug
+			// lentryJSON, _ := json.Marshal(&lentry)
+			// fmt.Println(string(lentryJSON))
 		}()
 		lentry.Method = r.Method
 		lentry.UserAgent = r.UserAgent()
