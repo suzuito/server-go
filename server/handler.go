@@ -26,9 +26,17 @@ func Handler(env *setting.Environment, gdep *inject.GlobalDepends) func(http.Res
 		lentry.RemoteAddr = r.RemoteAddr
 		ua := r.Header.Get("user-agent")
 		if gdep.UserAgentMatcher.IsBot(ua) {
+			scheme := "https"
+			if env.Env == "dev" {
+				scheme = "http"
+			}
+			r.URL.Path = fmt.Sprintf("/render/%s://%s%s", scheme, r.Host, r.URL.Path)
 			gdep.ReverseProxyFactoryPrerender.NewReverseProxy(usecase.NewRoundTripperImpl(&lentry)).ServeHTTP(w, r)
 			lentry.ResponsedAt = time.Now()
 			return
+		}
+		if r.URL.Path == "/" || r.URL.Path == "" {
+			r.URL.Path = "/index.html"
 		}
 		gdep.ReverseProxyFactoryFront.NewReverseProxy(usecase.NewRoundTripperImpl(&lentry)).ServeHTTP(w, r)
 		lentry.ResponsedAt = time.Now()

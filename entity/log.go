@@ -3,18 +3,18 @@ package entity
 import "time"
 
 type LogEntry struct {
-	RemoteAddr string
-	UserAgent  string
+	RemoteAddr string `json:"remoteAddr"`
+	UserAgent  string `json:"userAgent"`
 
-	URI         string
-	Method      string
-	StartedAt   time.Time
-	ResponsedAt time.Time
-	StatusCode  int
+	URI         string    `json:"uri"`
+	Method      string    `json:"method"`
+	StartedAt   time.Time `json:"startedAt"`
+	ResponsedAt time.Time `json:"responsedAt"`
+	StatusCode  int       `json:"statusCode"`
 
-	TargetURI         string
-	TargetMethod      string
-	TargetStartedAt   time.Time
-	TargetResponsedAt time.Time
-	TargetStatusCode  int
+	TargetURI         string    `json:"targetUri"`
+	TargetMethod      string    `json:"targetMethod"`
+	TargetStartedAt   time.Time `json:"targetStartedAt"`
+	TargetResponsedAt time.Time `json:"targetResponsedAt"`
+	TargetStatusCode  int       `json:"targetStatusCode"`
 }

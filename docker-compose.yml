@@ -10,7 +10,7 @@ services:
     ports:
       - 8080:8080
     environment:
-      - ENV=godzilla
+      - ENV=dev
       - PRERENDER_URL=http://prerendering:8080
       - FRONT_URL=https://suzuito-minilla-blog1-server.storage.googleapis.com
     links:

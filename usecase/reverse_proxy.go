@@ -38,6 +38,15 @@ func (r *RoundTripperImpl) RoundTrip(req *http.Request) (*http.Response, error) 
 	defer func() {
 		r.entry.TargetResponsedAt = time.Now()
 	}()
+	// GCSのpublicリポジトリは
+	// HostヘッダがURLと違っている場合、以下の403エラーが返ってくる。
+	//  <?xml version='1.0' encoding='UTF-8'?>
+	//  <Error>
+	//    <Code>UserProjectAccountProblem</Code>
+	//    <Message>User project billing account not in good standing.</Message>
+	//    <Details>The billing account for the owning project is disabled in state closed</Details>
+	//  </Error>
+	req.Host = req.URL.Host
 	res, err := http.DefaultTransport.RoundTrip(req)
 	if err != nil {
 		return nil, err
