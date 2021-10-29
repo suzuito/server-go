@@ -1,5 +1,5 @@
 gcloud builds submit --config=./cloudbuild.server.suzuito-minilla.yaml
-gcloud run deploy server-go \
+gcloud run deploy blog1-server-go \
 --image=gcr.io/suzuito-minilla/server-go:latest \
 --platform=managed \
 --region=asia-northeast1 \
