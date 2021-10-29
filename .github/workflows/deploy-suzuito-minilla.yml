@@ -1,4 +1,4 @@
-name: deploy-blog1-server-go-suzuito-minilla
+name: deploy-suzuito-minilla
 
 on:
   push:

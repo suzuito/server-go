@@ -1,4 +1,4 @@
-name: deploy-blog1-server-go-suzuito-godzilla
+name: deploy-suzuito-godzilla
 
 on:
   push:
