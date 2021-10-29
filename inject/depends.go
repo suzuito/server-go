@@ -22,11 +22,7 @@ func NewGlobalDepends(ctx context.Context, env *setting.Environment) (*GlobalDep
 			cf()
 		}
 	}
-	mat, err := matcher.NewUserAgentMatcher([]string{
-		"^.*googlebot.*$",
-		"^.*twitterbot.*$",
-		"^.*facebookexternalhit.*$",
-	})
+	mat, err := matcher.NewUserAgentMatcherDefault()
 	if err != nil {
 		closeFunc()
 		return nil, nil, xerrors.Errorf(": %w")

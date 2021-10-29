@@ -30,3 +30,15 @@ func NewUserAgentMatcher(
 		re: r,
 	}, nil
 }
+
+func NewUserAgentMatcherDefault() (*UserAgentMatcher, error) {
+	m, err := NewUserAgentMatcher([]string{
+		"^.*googlebot.*$",
+		"^.*twitterbot.*$",
+		"^.*facebookexternalhit.*$",
+	})
+	if err != nil {
+		return nil, xerrors.Errorf(": %w", err)
+	}
+	return m, nil
+}
