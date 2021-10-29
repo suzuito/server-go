@@ -20,4 +20,4 @@ jobs:
           export_default_credentials: true
       - run: gcloud builds submit --tag=gcr.io/${{env.GCP_PROJECT_ID}}/blog1-server-go
       - run: gcloud run deploy blog1-server-go --image=gcr.io/${{env.GCP_PROJECT_ID}}/blog1-server-go:latest --platform=managed --region=asia-northeast1 --allow-unauthenticated --memory=512Mi --cpu=1000m --max-instances=1 \
-             --set-var="ENV=dev"
+             --set-env-vars="ENV=dev"
