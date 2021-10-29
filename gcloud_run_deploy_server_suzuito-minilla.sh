@@ -1,6 +1,6 @@
 
 gcloud run deploy blog1-server-go \
---image=gcr.io/${env.GCP_PROJECT_ID}/blog1-server-go:latest \
+--image=gcr.io/${GCP_PROJECT_ID}/blog1-server-go:latest \
 --platform=managed \
 --region=asia-northeast1 \
 --allow-unauthenticated \
