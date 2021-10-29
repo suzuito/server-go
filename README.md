@@ -11,13 +11,17 @@ gcloud auth configure-docker
 docker-compose up
 ```
 
+```bash
+docker-compose exec blog1-server /bin/bash -c 'make test'
+```
+
+### blog1-server:8080
+
 以下の行をhostsファイルへ追加する
 
 ```hosts
 127.0.0.1 blog1-server
 ```
-
-### blog1-server:8080
 
 ```bash
 open http://blog1-server:8080
