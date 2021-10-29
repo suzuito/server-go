@@ -1,4 +1,4 @@
-module github.com/suzuito/blog1-server-go
+module github.com/suzuito/server-go
 
 go 1.16
 

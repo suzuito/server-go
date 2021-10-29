@@ -6,7 +6,7 @@ import (
 	"net/url"
 	"time"
 
-	"github.com/suzuito/blog1-server-go/entity"
+	"github.com/suzuito/server-go/entity"
 )
 
 type ReverseProxy interface {

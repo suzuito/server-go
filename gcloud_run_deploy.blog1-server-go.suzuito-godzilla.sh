@@ -1,6 +1,6 @@
 gcloud builds submit --config=./cloudbuild.server.suzuito-godzilla.yaml
-gcloud run deploy blog1-server-go \
---image=gcr.io/suzuito-godzilla/blog1-server-go:latest \
+gcloud run deploy server-go \
+--image=gcr.io/suzuito-godzilla/server-go:latest \
 --platform=managed \
 --region=asia-northeast1 \
 --allow-unauthenticated \

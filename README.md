@@ -14,18 +14,18 @@ docker-compose up
 以下の行をhostsファイルへ追加する
 
 ```hosts
-127.0.0.1 server
+127.0.0.1 blog1-server
 ```
 
-検証用URLは http://server:8080 である。
+### blog1-server:8080
 
 ```bash
-open http://server:8080
+open http://blog1-server:8080
 ```
 
 Prerenderingの検証。
 
 ```bash
-curl -A "googlebot" http://server:8080 > a.html
+curl -A "googlebot" http://blog1-server:8080 > a.html
 open a.html
 ```
