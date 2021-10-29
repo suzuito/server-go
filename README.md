@@ -1,4 +1,7 @@
+SPA server
 
+- In case of bot request, send the request to a prerender.
+- In case of not bot request, send the request to a server delivering SPA.
 
 ## Developments
 
@@ -12,12 +15,10 @@ docker-compose up
 ```
 
 ```bash
-docker-compose exec blog1-server /bin/bash -c 'make test'
+make test
 ```
 
 ### blog1-server:8080
-
-以下の行をhostsファイルへ追加する
 
 ```hosts
 127.0.0.1 blog1-server
