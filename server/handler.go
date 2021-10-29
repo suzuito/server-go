@@ -6,10 +6,10 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/suzuito/blog1-server-go/entity"
-	"github.com/suzuito/blog1-server-go/inject"
-	"github.com/suzuito/blog1-server-go/setting"
-	"github.com/suzuito/blog1-server-go/usecase"
+	"github.com/suzuito/server-go/entity"
+	"github.com/suzuito/server-go/inject"
+	"github.com/suzuito/server-go/setting"
+	"github.com/suzuito/server-go/usecase"
 )
 
 func Handler(env *setting.Environment, gdep *inject.GlobalDepends) func(http.ResponseWriter, *http.Request) {

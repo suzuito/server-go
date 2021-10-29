@@ -1,4 +1,4 @@
-name: deploy-suzuito-minilla
+name: deploy-blog1-server-go-suzuito-minilla
 
 on:
   push:
@@ -18,4 +18,4 @@ jobs:
           project_id: ${{env.GCP_PROJECT_ID}}
           service_account_key: ${{ secrets.GCP_SA_KEY_MINILLA }}
           export_default_credentials: true
-      - run: bash gcloud_run_deploy.server.${{env.GCP_PROJECT_ID}}.sh
+      - run: bash gcloud_run_deploy.blog1-server-go.${{env.GCP_PROJECT_ID}}.sh

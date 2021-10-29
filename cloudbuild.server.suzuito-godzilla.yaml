@@ -2,8 +2,8 @@ steps:
 - name: "gcr.io/cloud-builders/docker"
   args:
   - build
-  - "--tag=gcr.io/suzuito-godzilla/blog1-server-go"
+  - "--tag=gcr.io/suzuito-godzilla/server-go"
   - "--file=./Dockerfile.server"
   - .
 images:
-- gcr.io/suzuito-godzilla/blog1-server-go
+- gcr.io/suzuito-godzilla/server-go

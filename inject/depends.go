@@ -3,9 +3,9 @@ package inject
 import (
 	"context"
 
-	"github.com/suzuito/blog1-server-go/matcher"
-	"github.com/suzuito/blog1-server-go/setting"
-	"github.com/suzuito/blog1-server-go/usecase"
+	"github.com/suzuito/server-go/matcher"
+	"github.com/suzuito/server-go/setting"
+	"github.com/suzuito/server-go/usecase"
 	"golang.org/x/xerrors"
 )
 
@@ -22,11 +22,7 @@ func NewGlobalDepends(ctx context.Context, env *setting.Environment) (*GlobalDep
 			cf()
 		}
 	}
-	mat, err := matcher.NewUserAgentMatcher([]string{
-		"^.*googlebot.*$",
-		"^.*twitterbot.*$",
-		"^.*facebookexternalhit.*$",
-	})
+	mat, err := matcher.NewUserAgentMatcherDefault()
 	if err != nil {
 		closeFunc()
 		return nil, nil, xerrors.Errorf(": %w")
