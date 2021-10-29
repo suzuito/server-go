@@ -18,5 +18,5 @@ jobs:
           project_id: ${{env.GCP_PROJECT_ID}}
           service_account_key: ${{ secrets.GCP_SA_KEY_MINILLA }}
           export_default_credentials: true
-      - run: gcloud builds submit --config=./cloudbuild.server.suzuito-minilla.yaml
-      - run: bash gcloud_run_deploy.server.suzuito-minilla.sh
+      - run: gcloud builds submit --config=./cloudbuild.server.${{env.GCP_PROJECT_ID}}.yaml
+      - run: bash gcloud_run_deploy.server.${{env.GCP_PROJECT_ID}}.sh
