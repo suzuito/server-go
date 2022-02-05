@@ -6,6 +6,10 @@ steps:
   - "--tag=gcr.io/suzuito-${_ENV}/server-go"
   - "--file=./Dockerfile.server"
   - .
+- name: "gcr.io/cloud-builders/docker"
+  args:
+  - push
+  - "gcr.io/suzuito-${_ENV}/server-go"
 - name: "k8s.gcr.io/kustomize/kustomize:v4.3.0"
   args: ['build', 'kustomize/${_APP}/${_ENV}/${_REGION}', '--output=_.yaml']
 - name: "gcr.io/cloud-builders/gke-deploy"
