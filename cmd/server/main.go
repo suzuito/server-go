@@ -5,9 +5,9 @@ import (
 	"net/http"
 	"os"
 
-	"github.com/suzuito/server-go/inject"
-	"github.com/suzuito/server-go/server"
-	"github.com/suzuito/server-go/setting"
+	"github.com/suzuito/server-go/internal/inject"
+	"github.com/suzuito/server-go/internal/server"
+	"github.com/suzuito/server-go/internal/setting"
 )
 
 func main() {

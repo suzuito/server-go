@@ -7,7 +7,8 @@ import (
 )
 
 type DependsMock struct {
-	UserAgentMatcher             *MockUserAgentMatcher
+	ExternalAppBotMatcher        *MockUserAgentMatcher
+	HealthCheckBotMatcher        *MockUserAgentMatcher
 	ReverseProxy                 *MockReverseProxy
 	ReverseProxyFactoryFront     *MockReverseProxyFactory
 	ReverseProxyFactoryPrerender *MockReverseProxyFactory
@@ -15,16 +16,19 @@ type DependsMock struct {
 
 func NewDependsMock(t *testing.T) (*DependsMock, func()) {
 	r := DependsMock{}
-	ctrlUserAgentMatcher := gomock.NewController(t)
+	ctrlExternalAppBotMatcher := gomock.NewController(t)
+	ctrlHealthCheckBotMatcher := gomock.NewController(t)
 	ctrlReverseProxy := gomock.NewController(t)
 	ctrlReverseProxyFactoryFront := gomock.NewController(t)
 	ctrlReverseProxyFactoryPrerender := gomock.NewController(t)
-	r.UserAgentMatcher = NewMockUserAgentMatcher(ctrlUserAgentMatcher)
+	r.ExternalAppBotMatcher = NewMockUserAgentMatcher(ctrlExternalAppBotMatcher)
+	r.HealthCheckBotMatcher = NewMockUserAgentMatcher(ctrlHealthCheckBotMatcher)
 	r.ReverseProxy = NewMockReverseProxy(ctrlReverseProxy)
 	r.ReverseProxyFactoryFront = NewMockReverseProxyFactory(ctrlReverseProxyFactoryFront)
 	r.ReverseProxyFactoryPrerender = NewMockReverseProxyFactory(ctrlReverseProxyFactoryPrerender)
 	return &r, func() {
-		ctrlUserAgentMatcher.Finish()
+		ctrlExternalAppBotMatcher.Finish()
+		ctrlHealthCheckBotMatcher.Finish()
 		ctrlReverseProxy.Finish()
 		ctrlReverseProxyFactoryFront.Finish()
 		ctrlReverseProxyFactoryPrerender.Finish()

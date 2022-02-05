@@ -7,7 +7,6 @@ on:
 
 jobs:
   deploy:
-    name: Deploy
     runs-on: ubuntu-latest
     env:
       GCP_PROJECT_ID: suzuito-godzilla
@@ -18,4 +17,4 @@ jobs:
           project_id: ${{env.GCP_PROJECT_ID}}
           service_account_key: ${{ secrets.GCP_SA_KEY_GODZILLA }}
           export_default_credentials: true
-      - run: bash gcloud_run_deploy.blog1-server-go.${{env.GCP_PROJECT_ID}}.sh
+      - run: gcloud builds submit --config=./cloudbuild.deploy-server-go-image.godzilla.yaml

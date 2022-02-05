@@ -11,14 +11,6 @@ services:
       - 8080:8080
     environment:
       - ENV=dev
-      - PRERENDER_URL=http://prerendering:8080
-      - FRONT_URL=https://suzuito-minilla-blog1-server.storage.googleapis.com
-    links:
-      - prerendering:prerendering
-    depends_on:
-      - prerendering
+      - PRERENDER_URL=https://render-tron.appspot.com
+      - FRONT_URL=http://example.com
     command: /bin/bash -c 'air -c .air-server.toml'
-  prerendering:
-    image: gcr.io/suzuito-godzilla/prerendering:latest
-    ports:
-      - 8081:8080

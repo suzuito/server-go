@@ -4,8 +4,8 @@ server.exe: ${GO_SOURCES}
 	go build -o server.exe cmd/server/main.go
 
 mock:
-	make usecase/reverse_proxy_mock.go
-	make usecase/user_agent_matcher_mock.go
+	make internal/usecase/reverse_proxy_mock.go
+	make internal/usecase/user_agent_matcher_mock.go
 
 %_mock.go: %.go
 	bash mockgen.sh $^

@@ -1,14 +1,15 @@
 package server
 
 import (
+	"encoding/json"
 	"fmt"
 	"net/http"
 	"time"
 
-	"github.com/suzuito/server-go/entity"
-	"github.com/suzuito/server-go/inject"
-	"github.com/suzuito/server-go/setting"
-	"github.com/suzuito/server-go/usecase"
+	"github.com/suzuito/server-go/internal/entity"
+	"github.com/suzuito/server-go/internal/inject"
+	"github.com/suzuito/server-go/internal/setting"
+	"github.com/suzuito/server-go/internal/usecase"
 )
 
 func Handler(env *setting.Environment, gdep *inject.GlobalDepends) func(http.ResponseWriter, *http.Request) {
@@ -17,15 +18,19 @@ func Handler(env *setting.Environment, gdep *inject.GlobalDepends) func(http.Res
 		lentry.StartedAt = time.Now()
 		defer func() {
 			// debug
-			// lentryJSON, _ := json.Marshal(&lentry)
-			// fmt.Println(string(lentryJSON))
+			lentryJSON, _ := json.Marshal(&lentry)
+			fmt.Println(string(lentryJSON))
 		}()
 		lentry.Method = r.Method
 		lentry.UserAgent = r.UserAgent()
 		lentry.URI = r.URL.String()
 		lentry.RemoteAddr = r.RemoteAddr
 		ua := r.Header.Get("user-agent")
-		if gdep.UserAgentMatcher.IsBot(ua) {
+		if gdep.HealthCheckBotMatcher.IsMatched(ua) {
+			fmt.Fprintf(w, "ok\n")
+			return
+		}
+		if gdep.ExternalAppBotMatcher.IsMatched(ua) {
 			scheme := "https"
 			if env.Env == "dev" {
 				scheme = "http"
