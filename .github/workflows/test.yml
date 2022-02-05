@@ -1,7 +1,7 @@
 on:
   pull_request:
 jobs:
-  test:
+  test1:
     name: Test
     runs-on: ubuntu-latest
     strategy:
@@ -13,3 +13,10 @@ jobs:
         with:
           go-version: ${{ matrix.go }}
       - run: make test
+  test2:
+    steps:
+      - run: echo "test2"
+  test3:
+    needs: test1
+    steps:
+      - run: echo "test3"
