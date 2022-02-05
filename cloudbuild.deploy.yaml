@@ -3,6 +3,7 @@ steps:
 - name: "gcr.io/cloud-builders/docker"
   args:
   - build
+  - "--build-arg=COMMIT_SHA=${COMMIT_SHA}"
   - "--tag=gcr.io/suzuito-${_ENV}/server-go"
   - "--file=./Dockerfile.server"
   - .
