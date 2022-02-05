@@ -22,6 +22,10 @@ curl -A "googlebot" -H "Host: example.com" http://localhost:8080 -v
 curl http://localhost:8080 -v
 ```
 
+## Deployment
+
+- CloudBuild
+
 ## Operation
 
 ```bash
