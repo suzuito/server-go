@@ -1,5 +1,3 @@
-name: deploy-suzuito-godzilla
-
 on:
   push:
     tags:
