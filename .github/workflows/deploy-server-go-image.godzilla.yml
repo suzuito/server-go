@@ -2,12 +2,11 @@ on:
   push:
     tags:
       - "v[0-9]+.[0-9]+.[0-9]+"
-
+env:
+  GCP_PROJECT_ID: suzuito-godzilla
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    env:
-      GCP_PROJECT_ID: suzuito-godzilla
     steps:
       - uses: actions/checkout@v2
       - uses: google-github-actions/setup-gcloud@master
@@ -16,3 +15,14 @@ jobs:
           service_account_key: ${{ secrets.GCP_SA_KEY_GODZILLA }}
           export_default_credentials: true
       - run: gcloud builds submit --config=./cloudbuild.deploy-server-go-image.godzilla.yaml
+  deploy-blog:
+    needs: deploy
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: google-github-actions/setup-gcloud@master
+        with:
+          project_id: ${{env.GCP_PROJECT_ID}}
+          service_account_key: ${{ secrets.GCP_SA_KEY_GODZILLA }}
+          export_default_credentials: true
+      - run: gcloud builds submit --config=./cloudbuild.deploy-blog.godzilla.yaml

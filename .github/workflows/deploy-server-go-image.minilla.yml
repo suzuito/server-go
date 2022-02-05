@@ -2,12 +2,11 @@ on:
   push:
     tags:
       - "qa"
-
+env:
+  GCP_PROJECT_ID: suzuito-minilla
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    env:
-      GCP_PROJECT_ID: suzuito-minilla
     steps:
       - uses: actions/checkout@v2
       - uses: google-github-actions/setup-gcloud@master
@@ -15,4 +14,15 @@ jobs:
           project_id: ${{env.GCP_PROJECT_ID}}
           service_account_key: ${{ secrets.GCP_SA_KEY_MINILLA }}
           export_default_credentials: true
-      - run: gcloud builds submit --config=./cloudbuild.deploy-server-go-image.minilla.yaml
+      - run: gcloud builds submit --config=./cloudbuild.deploy-server-go-image.minilla.yaml --substitutions=_ENV="minilla"
+  deploy-blog:
+    needs: [deploy]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: google-github-actions/setup-gcloud@master
+        with:
+          project_id: ${{env.GCP_PROJECT_ID}}
+          service_account_key: ${{ secrets.GCP_SA_KEY_MINILLA }}
+          export_default_credentials: true
+      - run: gcloud builds submit --config=./cloudbuild.deploy-blog.yaml --substitutions=_REGION="asia-northeast1",_APP="blog",_ENV="minilla"
