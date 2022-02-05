@@ -6,9 +6,9 @@ import (
 	"testing"
 
 	"github.com/golang/mock/gomock"
-	"github.com/suzuito/server-go/inject"
-	"github.com/suzuito/server-go/setting"
-	"github.com/suzuito/server-go/usecase"
+	"github.com/suzuito/server-go/internal/inject"
+	"github.com/suzuito/server-go/internal/setting"
+	"github.com/suzuito/server-go/internal/usecase"
 )
 
 func TestHandler(t *testing.T) {
@@ -19,12 +19,25 @@ func TestHandler(t *testing.T) {
 		setUp           func(dep *usecase.DependsMock)
 	}{
 		{
+			desc:            `成功 ヘルスチェックリクエスト`,
+			inputHTTPMethod: http.MethodGet,
+			inputURL:        "http://foo.co.jp",
+			setUp: func(dep *usecase.DependsMock) {
+				dep.HealthCheckBotMatcher.EXPECT().
+					IsMatched(gomock.Any()).
+					Return(true)
+			},
+		},
+		{
 			desc:            `成功 ボットではないリクエストはFrontへ`,
 			inputHTTPMethod: http.MethodGet,
 			inputURL:        "http://foo.co.jp",
 			setUp: func(dep *usecase.DependsMock) {
-				dep.UserAgentMatcher.EXPECT().
-					IsBot(gomock.Any()).
+				dep.HealthCheckBotMatcher.EXPECT().
+					IsMatched(gomock.Any()).
+					Return(false)
+				dep.ExternalAppBotMatcher.EXPECT().
+					IsMatched(gomock.Any()).
 					Return(false)
 				dep.ReverseProxyFactoryFront.EXPECT().
 					NewReverseProxy(gomock.Any()).
@@ -38,8 +51,11 @@ func TestHandler(t *testing.T) {
 			inputHTTPMethod: http.MethodGet,
 			inputURL:        "http://foo.co.jp",
 			setUp: func(dep *usecase.DependsMock) {
-				dep.UserAgentMatcher.EXPECT().
-					IsBot(gomock.Any()).
+				dep.HealthCheckBotMatcher.EXPECT().
+					IsMatched(gomock.Any()).
+					Return(false)
+				dep.ExternalAppBotMatcher.EXPECT().
+					IsMatched(gomock.Any()).
 					Return(true)
 				dep.ReverseProxyFactoryPrerender.EXPECT().
 					NewReverseProxy(gomock.Any()).
@@ -59,7 +75,8 @@ func TestHandler(t *testing.T) {
 			}
 			recorder := httptest.NewRecorder()
 			h := Handler(&env, &inject.GlobalDepends{
-				UserAgentMatcher:             dep.UserAgentMatcher,
+				ExternalAppBotMatcher:        dep.ExternalAppBotMatcher,
+				HealthCheckBotMatcher:        dep.HealthCheckBotMatcher,
 				ReverseProxyFactoryFront:     dep.ReverseProxyFactoryFront,
 				ReverseProxyFactoryPrerender: dep.ReverseProxyFactoryPrerender,
 			})

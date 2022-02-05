@@ -12,7 +12,7 @@ type UserAgentMatcher struct {
 	re *regexp.Regexp
 }
 
-func (m *UserAgentMatcher) IsBot(userAgent string) bool {
+func (m *UserAgentMatcher) IsMatched(userAgent string) bool {
 	return m.re.MatchString(userAgent)
 }
 
@@ -31,11 +31,21 @@ func NewUserAgentMatcher(
 	}, nil
 }
 
-func NewUserAgentMatcherDefault() (*UserAgentMatcher, error) {
+func NewExternalBotMatcherDefault() (*UserAgentMatcher, error) {
 	m, err := NewUserAgentMatcher([]string{
 		"^.*googlebot.*$",
 		"^.*twitterbot.*$",
 		"^.*facebookexternalhit.*$",
+	})
+	if err != nil {
+		return nil, xerrors.Errorf(": %w", err)
+	}
+	return m, nil
+}
+
+func NewHealthCheckBotMatcherDefault() (*UserAgentMatcher, error) {
+	m, err := NewUserAgentMatcher([]string{
+		"^kube-probe.*$",
 	})
 	if err != nil {
 		return nil, xerrors.Errorf(": %w", err)

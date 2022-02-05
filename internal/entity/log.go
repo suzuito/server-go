@@ -10,7 +10,6 @@ type LogEntry struct {
 	Method      string    `json:"method"`
 	StartedAt   time.Time `json:"startedAt"`
 	ResponsedAt time.Time `json:"responsedAt"`
-	StatusCode  int       `json:"statusCode"`
 
 	TargetURI         string    `json:"targetUri"`
 	TargetMethod      string    `json:"targetMethod"`

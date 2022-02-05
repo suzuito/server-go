@@ -7,7 +7,7 @@ import (
 )
 
 func TestNewUserAgentMatcherDefault(t *testing.T) {
-	_, err := NewUserAgentMatcherDefault()
+	_, err := NewExternalBotMatcherDefault()
 	assert.Nil(t, err)
 }
 
@@ -68,7 +68,7 @@ func TestIsBot(t *testing.T) {
 	for _, tC := range testCases {
 		t.Run(tC.desc, func(t *testing.T) {
 			m, _ := NewUserAgentMatcher(tC.inputExpresses)
-			assert.Equal(t, tC.expected, m.IsBot(tC.inputUserAgent))
+			assert.Equal(t, tC.expected, m.IsMatched(tC.inputUserAgent))
 		})
 	}
 }

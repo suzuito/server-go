@@ -1,0 +1,32 @@
+
+steps:
+- name: "gcr.io/cloud-builders/docker"
+  args:
+  - build
+  - "--build-arg=COMMIT_SHA=${COMMIT_SHA}"
+  - "--tag=gcr.io/suzuito-${_ENV}/server-go"
+  - "--file=./Dockerfile.server"
+  - .
+- name: "gcr.io/cloud-builders/docker"
+  args:
+  - push
+  - "gcr.io/suzuito-${_ENV}/server-go"
+- name: "k8s.gcr.io/kustomize/kustomize:v4.3.0"
+  args: ['build', 'kustomize/${_APP}/${_ENV}/${_REGION}', '--output=_.yaml']
+- name: "gcr.io/cloud-builders/gke-deploy"
+  args:
+  - run
+  - --filename=_.yaml
+  - --location=${_REGION}
+  - --cluster=autopilot-asia-northeast1
+- name: "gcr.io/cloud-builders/kubectl"
+  env:
+  - CLOUDSDK_COMPUTE_REGION=${_REGION}
+  - CLOUDSDK_CONTAINER_CLUSTER=autopilot-asia-northeast1
+  args:
+  - rollout
+  - restart
+  - deployment/front-deployment
+  - --namespace=${_APP}
+images:
+- gcr.io/suzuito-${_ENV}/server-go

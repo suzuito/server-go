@@ -1,0 +1,4 @@
+namespace: blog
+resources:
+- deployment.yaml
+- service.yaml

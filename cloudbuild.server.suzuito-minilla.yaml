@@ -1,9 +1,0 @@
-steps:
-- name: "gcr.io/cloud-builders/docker"
-  args:
-  - build
-  - "--tag=gcr.io/suzuito-minilla/server-go"
-  - "--file=./Dockerfile.server"
-  - .
-images:
-- gcr.io/suzuito-minilla/server-go

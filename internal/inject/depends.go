@@ -3,14 +3,15 @@ package inject
 import (
 	"context"
 
-	"github.com/suzuito/server-go/matcher"
-	"github.com/suzuito/server-go/setting"
-	"github.com/suzuito/server-go/usecase"
+	"github.com/suzuito/server-go/internal/matcher"
+	"github.com/suzuito/server-go/internal/setting"
+	"github.com/suzuito/server-go/internal/usecase"
 	"golang.org/x/xerrors"
 )
 
 type GlobalDepends struct {
-	UserAgentMatcher             usecase.UserAgentMatcher
+	ExternalAppBotMatcher        usecase.UserAgentMatcher
+	HealthCheckBotMatcher        usecase.UserAgentMatcher
 	ReverseProxyFactoryPrerender usecase.ReverseProxyFactory
 	ReverseProxyFactoryFront     usecase.ReverseProxyFactory
 }
@@ -22,13 +23,19 @@ func NewGlobalDepends(ctx context.Context, env *setting.Environment) (*GlobalDep
 			cf()
 		}
 	}
-	mat, err := matcher.NewUserAgentMatcherDefault()
+	appMat, err := matcher.NewExternalBotMatcherDefault()
+	if err != nil {
+		closeFunc()
+		return nil, nil, xerrors.Errorf(": %w")
+	}
+	healthMat, err := matcher.NewHealthCheckBotMatcherDefault()
 	if err != nil {
 		closeFunc()
 		return nil, nil, xerrors.Errorf(": %w")
 	}
 	r := GlobalDepends{
-		UserAgentMatcher:             mat,
+		ExternalAppBotMatcher:        appMat,
+		HealthCheckBotMatcher:        healthMat,
 		ReverseProxyFactoryPrerender: &usecase.ReverseProxyFactoryImpl{Target: env.PrerenderURL},
 		ReverseProxyFactoryFront:     &usecase.ReverseProxyFactoryImpl{Target: env.FrontURL},
 	}

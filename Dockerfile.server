@@ -5,6 +5,8 @@ RUN apk --no-cache add make
 RUN make server.exe
 
 FROM alpine:latest
+ARG COMMIT_SHA=${COMMIT_SHA}
+ENV COMMIT_SHA=${COMMIT_SHA}
 EXPOSE 8080
 COPY --from=builder /app/server.exe ./
 CMD [ "./server.exe" ]
