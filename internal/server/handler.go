@@ -43,7 +43,9 @@ func Handler(env *setting.Environment, gdep *inject.GlobalDepends) func(http.Res
 			lentry.ResponsedAt = time.Now()
 			return
 		}
-		r.URL.Path = "/index.html"
+		if r.URL.Path == "/" || r.URL.Path == "" {
+			r.URL.Path = "/index.html"
+		}
 		gdep.ReverseProxyFactoryFront.NewReverseProxy(usecase.NewRoundTripperImpl(&lentry)).ServeHTTP(w, r)
 		lentry.ResponsedAt = time.Now()
 	}
