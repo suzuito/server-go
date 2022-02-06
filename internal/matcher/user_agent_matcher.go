@@ -46,6 +46,7 @@ func NewExternalBotMatcherDefault() (*UserAgentMatcher, error) {
 func NewHealthCheckBotMatcherDefault() (*UserAgentMatcher, error) {
 	m, err := NewUserAgentMatcher([]string{
 		"^kube-probe.*$",
+		"^GoogleHC.*$",
 	})
 	if err != nil {
 		return nil, xerrors.Errorf(": %w", err)
