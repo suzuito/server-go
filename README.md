@@ -29,8 +29,8 @@ curl http://localhost:8080 -v
 ## Operation
 
 ```bash
-kubectl create namespace blog
 kubectl config set-context --current --namespace=blog
+kubectl create namespace blog
 kubectl apply -k kustomize/blog/minilla/bases
 kubectl rollout restart deployment front-deployment
 kubectl logs -l app=front -c front
