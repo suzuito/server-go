@@ -27,7 +27,10 @@ func Handler(env *setting.Environment, gdep *inject.GlobalDepends) func(http.Res
 		lentry.RemoteAddr = r.RemoteAddr
 		ua := r.Header.Get("user-agent")
 		if gdep.HealthCheckBotMatcher.IsMatched(ua) {
+			lentry.TargetStartedAt = time.Now()
 			fmt.Fprintf(w, "ok\n")
+			lentry.TargetStatusCode = http.StatusOK
+			lentry.TargetResponsedAt = time.Now()
 			return
 		}
 		if gdep.ExternalAppBotMatcher.IsMatched(ua) {
