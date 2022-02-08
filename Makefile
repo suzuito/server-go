@@ -1,8 +1,5 @@
 GO_SOURCES := $(shell find . -name '*.go')
 
-server.exe: ${GO_SOURCES}
-	go build -o server.exe cmd/server/main.go
-
 mock:
 	make internal/usecase/reverse_proxy_mock.go
 	make internal/usecase/user_agent_matcher_mock.go

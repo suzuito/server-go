@@ -34,7 +34,9 @@ func NewUserAgentMatcher(
 func NewExternalBotMatcherDefault() (*UserAgentMatcher, error) {
 	m, err := NewUserAgentMatcher([]string{
 		"^.*googlebot.*$",
+		"^.*Googlebot.*$",
 		"^.*twitterbot.*$",
+		"^.*Twitterbot.*$",
 		"^.*facebookexternalhit.*$",
 	})
 	if err != nil {

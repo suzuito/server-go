@@ -12,6 +12,6 @@ services:
     environment:
       - ENV=dev
       - PRERENDER_URL=https://render-tron.appspot.com
-      - FRONT_URL=https://suzuito.github.io/test-pages
+      - FRONT_URL=https://suzuito.github.io/test_pages
     command: /bin/bash -c 'air -c .air-server.toml'
     

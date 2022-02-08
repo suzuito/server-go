@@ -18,8 +18,9 @@ make test
 curl -A "kube-probe" http://localhost:8080 -v
 # The request is sent to a prerenderer (defined by PRERENDER_URL) and prernderer responses http://example.com page
 curl -A "googlebot" -H "Host: suzuito.github.io" http://localhost:8080/test-pages/page001.html -v
-# The request is sent to a front_end (defined by FRONT_URL)
-curl http://localhost:8080/test-pages/page001.html -v
+# The request is sent to a front_end (defined by FRONT_URL https://suzuito.github.io/test-pages)
+curl http://localhost:8080/page001.html -v
+curl http://localhost:8080/main.js -v
 ```
 
 ## Deployment

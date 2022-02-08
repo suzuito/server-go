@@ -1,5 +1,5 @@
 root = "."
 
 [build]
-cmd = "make server.exe"
+cmd = "go build -o server.exe cmd/server/main.go"
 bin = "server.exe"
