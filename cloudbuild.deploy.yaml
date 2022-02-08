@@ -11,5 +11,14 @@ steps:
   args:
   - push
   - "gcr.io/suzuito-${_ENV}/server-go"
+- name: "gcr.io/cloud-builders/kubectl"
+  env:
+  - CLOUDSDK_COMPUTE_REGION=asia-northeast1
+  - CLOUDSDK_CONTAINER_CLUSTER=autopilot-asia-northeast1
+  args:
+  - rollout
+  - restart
+  - deployment/server-deployment
+  - --namespace=blog
 images:
 - gcr.io/suzuito-${_ENV}/server-go
