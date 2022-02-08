@@ -1,8 +1,7 @@
 FROM golang:1.17.6-alpine AS builder
 WORKDIR /app
 COPY . ./
-RUN apk --no-cache add make
-RUN make server.exe
+RUN go build -o server.exe cmd/server/*.go
 
 FROM alpine:latest
 ARG COMMIT_SHA=${COMMIT_SHA}
