@@ -46,39 +46,51 @@ func (mr *MockReverseProxyMockRecorder) ServeHTTP(rw, req interface{}) *gomock.C
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ServeHTTP", reflect.TypeOf((*MockReverseProxy)(nil).ServeHTTP), rw, req)
 }
 
-// MockReverseProxyFactory is a mock of ReverseProxyFactory interface.
-type MockReverseProxyFactory struct {
+// MockReverseProxyRoute is a mock of ReverseProxyRoute interface.
+type MockReverseProxyRoute struct {
 	ctrl     *gomock.Controller
-	recorder *MockReverseProxyFactoryMockRecorder
+	recorder *MockReverseProxyRouteMockRecorder
 }
 
-// MockReverseProxyFactoryMockRecorder is the mock recorder for MockReverseProxyFactory.
-type MockReverseProxyFactoryMockRecorder struct {
-	mock *MockReverseProxyFactory
+// MockReverseProxyRouteMockRecorder is the mock recorder for MockReverseProxyRoute.
+type MockReverseProxyRouteMockRecorder struct {
+	mock *MockReverseProxyRoute
 }
 
-// NewMockReverseProxyFactory creates a new mock instance.
-func NewMockReverseProxyFactory(ctrl *gomock.Controller) *MockReverseProxyFactory {
-	mock := &MockReverseProxyFactory{ctrl: ctrl}
-	mock.recorder = &MockReverseProxyFactoryMockRecorder{mock}
+// NewMockReverseProxyRoute creates a new mock instance.
+func NewMockReverseProxyRoute(ctrl *gomock.Controller) *MockReverseProxyRoute {
+	mock := &MockReverseProxyRoute{ctrl: ctrl}
+	mock.recorder = &MockReverseProxyRouteMockRecorder{mock}
 	return mock
 }
 
 // EXPECT returns an object that allows the caller to indicate expected use.
-func (m *MockReverseProxyFactory) EXPECT() *MockReverseProxyFactoryMockRecorder {
+func (m *MockReverseProxyRoute) EXPECT() *MockReverseProxyRouteMockRecorder {
 	return m.recorder
 }
 
-// NewReverseProxy mocks base method.
-func (m *MockReverseProxyFactory) NewReverseProxy(transport http.RoundTripper) ReverseProxy {
+// Check mocks base method.
+func (m *MockReverseProxyRoute) Check(arg0 *http.Request) bool {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "NewReverseProxy", transport)
-	ret0, _ := ret[0].(ReverseProxy)
+	ret := m.ctrl.Call(m, "Check", arg0)
+	ret0, _ := ret[0].(bool)
 	return ret0
 }
 
-// NewReverseProxy indicates an expected call of NewReverseProxy.
-func (mr *MockReverseProxyFactoryMockRecorder) NewReverseProxy(transport interface{}) *gomock.Call {
+// Check indicates an expected call of Check.
+func (mr *MockReverseProxyRouteMockRecorder) Check(arg0 interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "NewReverseProxy", reflect.TypeOf((*MockReverseProxyFactory)(nil).NewReverseProxy), transport)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Check", reflect.TypeOf((*MockReverseProxyRoute)(nil).Check), arg0)
+}
+
+// ServeHTTP mocks base method.
+func (m *MockReverseProxyRoute) ServeHTTP(arg0 http.ResponseWriter, arg1 *http.Request) {
+	m.ctrl.T.Helper()
+	m.ctrl.Call(m, "ServeHTTP", arg0, arg1)
+}
+
+// ServeHTTP indicates an expected call of ServeHTTP.
+func (mr *MockReverseProxyRouteMockRecorder) ServeHTTP(arg0, arg1 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ServeHTTP", reflect.TypeOf((*MockReverseProxyRoute)(nil).ServeHTTP), arg0, arg1)
 }

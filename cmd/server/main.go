@@ -8,6 +8,7 @@ import (
 	"github.com/suzuito/server-go/internal/inject"
 	"github.com/suzuito/server-go/internal/server"
 	"github.com/suzuito/server-go/internal/setting"
+	"github.com/suzuito/server-go/internal/usecase"
 )
 
 func main() {
@@ -21,6 +22,15 @@ func main() {
 		os.Exit(1)
 	}
 	defer closeFunc()
-	http.HandleFunc("/", server.Handler(env, gdep))
+
+	pxy := usecase.NewProxyBlog(
+		gdep.HealthCheckBotMatcher,
+		gdep.ExternalAppBotMatcher,
+		gdep.ReverseProxyFront,
+		gdep.ReverseProxyPrerender,
+		env.Env,
+	)
+
+	http.HandleFunc("/", server.Handler(env, pxy))
 	http.ListenAndServe(":8080", nil)
 }

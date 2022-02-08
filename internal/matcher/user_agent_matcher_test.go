@@ -7,8 +7,14 @@ import (
 )
 
 func TestNewUserAgentMatcherDefault(t *testing.T) {
-	_, err := NewExternalBotMatcherDefault()
+	matcher, err := NewExternalBotMatcherDefault()
 	assert.Nil(t, err)
+	assert.True(t, matcher.IsMatched("Mozilla/5.0 AppleWebKit/537.36 (KHTML, like Gecko; compatible; Googlebot/2.1; +http://www.google.com/bot.html)"))
+	assert.True(t, matcher.IsMatched("Twitterbot/1.0"))
+	matcher, err = NewHealthCheckBotMatcherDefault()
+	assert.Nil(t, err)
+	assert.True(t, matcher.IsMatched("kube-probe"))
+	assert.True(t, matcher.IsMatched("GoogleHC"))
 }
 
 func TestNewUserAgentMatcher(t *testing.T) {

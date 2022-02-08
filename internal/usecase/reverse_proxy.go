@@ -5,38 +5,26 @@ import (
 	"net/http/httputil"
 	"net/url"
 	"time"
-
-	"github.com/suzuito/server-go/internal/entity"
 )
 
 type ReverseProxy interface {
 	ServeHTTP(rw http.ResponseWriter, req *http.Request)
 }
 
-type ReverseProxyFactory interface {
-	NewReverseProxy(transport http.RoundTripper) ReverseProxy
-}
-
-type ReverseProxyFactoryImpl struct {
-	Target *url.URL
-}
-
-func (r *ReverseProxyFactoryImpl) NewReverseProxy(transport http.RoundTripper) ReverseProxy {
-	pxy := httputil.NewSingleHostReverseProxy(r.Target)
-	pxy.Transport = transport
-	return pxy
-}
-
 type RoundTripperImpl struct {
-	entry *entity.LogEntry
 }
 
 func (r *RoundTripperImpl) RoundTrip(req *http.Request) (*http.Response, error) {
-	r.entry.TargetURI = req.URL.String()
-	r.entry.TargetMethod = req.Method
-	r.entry.TargetStartedAt = time.Now()
+	le := GetContextLogEntry(req)
+	if le != nil {
+		le.TargetURI = req.URL.String()
+		le.TargetMethod = req.Method
+		le.TargetStartedAt = time.Now()
+	}
 	defer func() {
-		r.entry.TargetResponsedAt = time.Now()
+		if le != nil {
+			le.TargetResponsedAt = time.Now()
+		}
 	}()
 	// GCSのpublicリポジトリは
 	// HostヘッダがURLと違っている場合、以下の403エラーが返ってくる。
@@ -51,12 +39,24 @@ func (r *RoundTripperImpl) RoundTrip(req *http.Request) (*http.Response, error) 
 	if err != nil {
 		return nil, err
 	}
-	r.entry.TargetStatusCode = res.StatusCode
+	if le != nil {
+		le.TargetStatusCode = res.StatusCode
+	}
 	return res, nil
 }
 
-func NewRoundTripperImpl(le *entity.LogEntry) *RoundTripperImpl {
-	return &RoundTripperImpl{
-		entry: le,
-	}
+type ReverseProxyRoutes struct {
+	Routes       []ReverseProxyRoute
+	DefaultRoute ReverseProxyRoute
+}
+
+type ReverseProxyRoute interface {
+	Check(*http.Request) bool
+	ServeHTTP(http.ResponseWriter, *http.Request)
+}
+
+func NewSingleHostReverseProxy(target *url.URL) *httputil.ReverseProxy {
+	r := httputil.NewSingleHostReverseProxy(target)
+	r.Transport = &RoundTripperImpl{}
+	return r
 }
