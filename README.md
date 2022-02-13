@@ -21,6 +21,8 @@ curl -A "googlebot" -H "Host: suzuito.github.io" http://localhost:8080/test-page
 # The request is sent to a front_end (defined by FRONT_URL https://suzuito.github.io/test-pages)
 curl http://localhost:8080/page001.html -v
 curl http://localhost:8080/main.js -v
+# Sitemap
+curl http://localhost:8080/sitemap.xml -v
 ```
 
 ## Deployment

@@ -8,7 +8,7 @@ import (
 )
 
 type ReverseProxy interface {
-	ServeHTTP(rw http.ResponseWriter, req *http.Request)
+	ServeHTTP(w http.ResponseWriter, r *http.Request)
 }
 
 type RoundTripperImpl struct {
@@ -43,16 +43,6 @@ func (r *RoundTripperImpl) RoundTrip(req *http.Request) (*http.Response, error) 
 		le.TargetStatusCode = res.StatusCode
 	}
 	return res, nil
-}
-
-type ReverseProxyRoutes struct {
-	Routes       []ReverseProxyRoute
-	DefaultRoute ReverseProxyRoute
-}
-
-type ReverseProxyRoute interface {
-	Check(*http.Request) bool
-	ServeHTTP(http.ResponseWriter, *http.Request)
 }
 
 func NewSingleHostReverseProxy(target *url.URL) *httputil.ReverseProxy {

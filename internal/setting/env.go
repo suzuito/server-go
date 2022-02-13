@@ -14,6 +14,9 @@ type Environment struct {
 	PrerenderURL       *url.URL
 	FrontURLString     string `envconfig:"FRONT_URL"`
 	FrontURL           *url.URL
+	SitemapURLString   string `envconfig:"SITEMAP_URL"`
+	SitemapURL         *url.URL
+	SitemapOrigin      string `envconfig:"SITEMAP_ORIGIN"`
 }
 
 func NewEnvironment() (*Environment, error) {
@@ -27,6 +30,10 @@ func NewEnvironment() (*Environment, error) {
 		return nil, xerrors.Errorf(": %w", err)
 	}
 	r.FrontURL, err = url.Parse(r.FrontURLString)
+	if err != nil {
+		return nil, xerrors.Errorf(": %w", err)
+	}
+	r.SitemapURL, err = url.Parse(r.SitemapURLString)
 	if err != nil {
 		return nil, xerrors.Errorf(": %w", err)
 	}
