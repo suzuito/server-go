@@ -14,6 +14,6 @@ services:
       - PRERENDER_URL=https://render-tron.appspot.com
       - FRONT_URL=https://suzuito.github.io/test_pages
       - SITEMAP_URL=https://api-blog.tach.dev/admin
-      - SITEMAP_ORIGIN=http//localhost:4200
+      - SITEMAP_ORIGIN=http://localhost:4200
     command: /bin/bash -c 'air -c .air-server.toml'
     
