@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
+	"regexp"
 	"time"
 
 	"github.com/suzuito/server-go/internal/entity"
@@ -43,6 +44,12 @@ func HandlerBlog(
 			gdeps.ReverseProxyPrerender.ServeHTTP(w, r)
 			return
 		}
+		result, _ := regexp.MatchString(`\.txt$|\.png$|\.html$|\.js$|\.xml$|\.css$`, r.URL.Path)
+		if result {
+			gdeps.ReverseProxyFront.ServeHTTP(w, r)
+			return
+		}
+		r.URL.Path = "/index.html"
 		gdeps.ReverseProxyFront.ServeHTTP(w, r)
 	}
 }
