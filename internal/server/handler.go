@@ -30,6 +30,9 @@ func HandlerBlog(
 		}()
 
 		if r.URL.Path == "/sitemap.xml" {
+			q := r.URL.Query()
+			q.Set("origin", env.SitemapOrigin)
+			r.URL.RawQuery = q.Encode()
 			gdeps.ReverseProxySitemap.ServeHTTP(w, r)
 			return
 		}
