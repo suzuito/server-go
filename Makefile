@@ -8,6 +8,6 @@ mock:
 	bash mockgen.sh $^
 
 test:
-	CGO_ENABLED=0 go test -coverpkg=github.com/suzuito/server-go/... -coverprofile=cov.out ./...
-	go tool cover -func=cov.out
-	go tool cover -html=cov.out -o cov.html
+	CGO_ENABLED=0 go test -coverpkg=github.com/suzuito/server-go/... -coverprofile=coverage.txt ./...
+	go tool cover -func=coverage.txt
+	go tool cover -html=coverage.txt -o coverage.html
