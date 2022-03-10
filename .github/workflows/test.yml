@@ -13,3 +13,6 @@ jobs:
         with:
           go-version: ${{ matrix.go }}
       - run: make test
+      - uses: codecov/codecov-action@v2
+        with:
+          verbose: true

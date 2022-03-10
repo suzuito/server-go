@@ -1,4 +1,4 @@
-package usecase
+package mock_usecase
 
 import (
 	"testing"
