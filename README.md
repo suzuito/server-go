@@ -1,3 +1,5 @@
+[![codecov](https://codecov.io/gh/suzuito/server-go/branch/main/graph/badge.svg?token=9ABQLNMSDV)](https://codecov.io/gh/suzuito/server-go)
+
 SPA server
 
 - In case of bot request, send the request to a prerenderer.
