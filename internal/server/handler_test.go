@@ -8,7 +8,7 @@ import (
 	"github.com/golang/mock/gomock"
 	"github.com/suzuito/server-go/internal/inject"
 	"github.com/suzuito/server-go/internal/setting"
-	"github.com/suzuito/server-go/internal/usecase"
+	mock_usecase "github.com/suzuito/server-go/internal/usecase/mock"
 )
 
 func TestHandlerBlog(t *testing.T) {
@@ -16,13 +16,13 @@ func TestHandlerBlog(t *testing.T) {
 		desc            string
 		inputHTTPMethod string
 		inputURL        string
-		setUp           func(dep *usecase.DependsMock)
+		setUp           func(dep *mock_usecase.DependsMock)
 	}{
 		{
 			desc:            `成功 ヘルスチェックリクエスト`,
 			inputHTTPMethod: http.MethodGet,
 			inputURL:        "http://foo.co.jp",
-			setUp: func(dep *usecase.DependsMock) {
+			setUp: func(dep *mock_usecase.DependsMock) {
 				dep.HealthCheckBotMatcher.EXPECT().
 					IsMatched(gomock.Any()).
 					Return(true)
@@ -32,7 +32,7 @@ func TestHandlerBlog(t *testing.T) {
 			desc:            `成功 ボットではないリクエストはFrontへ`,
 			inputHTTPMethod: http.MethodGet,
 			inputURL:        "http://foo.co.jp",
-			setUp: func(dep *usecase.DependsMock) {
+			setUp: func(dep *mock_usecase.DependsMock) {
 				dep.HealthCheckBotMatcher.EXPECT().
 					IsMatched(gomock.Any()).
 					Return(false)
@@ -47,7 +47,7 @@ func TestHandlerBlog(t *testing.T) {
 			desc:            `成功 ボットではないリクエストはFrontへ`,
 			inputHTTPMethod: http.MethodGet,
 			inputURL:        "http://foo.co.jp/hoge.js",
-			setUp: func(dep *usecase.DependsMock) {
+			setUp: func(dep *mock_usecase.DependsMock) {
 				dep.HealthCheckBotMatcher.EXPECT().
 					IsMatched(gomock.Any()).
 					Return(false)
@@ -62,7 +62,7 @@ func TestHandlerBlog(t *testing.T) {
 			desc:            `成功 ボットであるリクエストはPrerenderへ`,
 			inputHTTPMethod: http.MethodGet,
 			inputURL:        "http://foo.co.jp",
-			setUp: func(dep *usecase.DependsMock) {
+			setUp: func(dep *mock_usecase.DependsMock) {
 				dep.HealthCheckBotMatcher.EXPECT().
 					IsMatched(gomock.Any()).
 					Return(false)
@@ -77,7 +77,7 @@ func TestHandlerBlog(t *testing.T) {
 			desc:            `成功 /sitemap.xmlはサイトマップへ`,
 			inputHTTPMethod: http.MethodGet,
 			inputURL:        "http://foo.co.jp/sitemap.xml",
-			setUp: func(dep *usecase.DependsMock) {
+			setUp: func(dep *mock_usecase.DependsMock) {
 				dep.ReverseProxySitemap.EXPECT().
 					ServeHTTP(gomock.Any(), gomock.Any())
 			},
@@ -85,7 +85,7 @@ func TestHandlerBlog(t *testing.T) {
 	}
 	for _, tC := range testCases {
 		t.Run(tC.desc, func(t *testing.T) {
-			dep, closeFunc := usecase.NewDependsMock(t)
+			dep, closeFunc := mock_usecase.NewDependsMock(t)
 			defer closeFunc()
 			tC.setUp(dep)
 			env := setting.Environment{

@@ -9,6 +9,14 @@ SPA server
 docker-compose up
 ```
 
+Generate mock
+
+```bash
+sh mockgen.sh
+```
+
+Run test
+
 ```bash
 make test
 ```
